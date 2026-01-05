@@ -1,9 +1,12 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Mensagem Secreta</title>
+  <title>Acesso Secreto</title>
+
+  <!-- Fonte -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
 
   <style>
     * {
@@ -15,76 +18,96 @@
 
     body {
       height: 100vh;
-      background: radial-gradient(circle, #000, #1a001f);
+      background: radial-gradient(circle at top, #000, #12001a);
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
       color: white;
     }
 
     .container {
       text-align: center;
-      animation: explode 1.2s ease-out forwards;
+      animation: explode 1s ease-out;
     }
 
     .iniciais {
       font-size: 4rem;
       font-weight: bold;
-      background: linear-gradient(90deg, purple, green, red);
+      margin-bottom: 20px;
+      background: linear-gradient(90deg, #a855f7, #22c55e, #ef4444);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      margin-bottom: 20px;
       animation: pulse 2s infinite;
     }
 
     .frase {
       font-size: 2rem;
-      max-width: 300px;
-      opacity: 0;
-      animation: aparecer 1s ease forwards;
-      animation-delay: 1s;
+      min-height: 70px;
+      text-shadow: 0 0 10px #a855f7;
+      animation: neon 4s linear infinite;
     }
 
     @keyframes explode {
-      0% {
-        transform: scale(0);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-
-    @keyframes aparecer {
-      from {
-        opacity: 0;
-        transform: translateY(40px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     @keyframes pulse {
-      0%, 100% {
-        transform: scale(1);
-      }
-      50% {
-        transform: scale(1.1);
-      }
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    @keyframes neon {
+      0% { color: #a855f7; }
+      33% { color: #22c55e; }
+      66% { color: #ef4444; }
+      100% { color: #a855f7; }
     }
   </style>
 </head>
 
 <body>
+
   <div class="container">
     <div class="iniciais">R E</div>
-    <div class="frase">
-      “Só tem a senha<br> quem traz algo.”
-    </div>
+    <div id="texto" class="frase"></div>
   </div>
+
+  <script>
+    const frases = [
+      "Acesso liberado só pra quem vem na intenção certa.",
+      "Sem vibe, sem acesso.",
+      "Acesso não é pra curioso.",
+      "Se a frequência for a mesma, conecta."
+    ];
+
+    const elemento = document.getElementById("texto");
+    let fraseAtual = 0;
+    let i = 0;
+
+    function escrever() {
+      if (i < frases[fraseAtual].length) {
+        elemento.textContent += frases[fraseAtual].charAt(i);
+        i++;
+        setTimeout(escrever, 70);
+      } else {
+        setTimeout(apagar, 2000);
+      }
+    }
+
+    function apagar() {
+      if (elemento.textContent.length > 0) {
+        elemento.textContent = elemento.textContent.slice(0, -1);
+        setTimeout(apagar, 40);
+      } else {
+        fraseAtual = (fraseAtual + 1) % frases.length;
+        i = 0;
+        escrever();
+      }
+    }
+
+    escrever();
+  </script>
+
 </body>
 </html>
